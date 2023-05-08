@@ -1,5 +1,5 @@
 <br>
-<p align="center"><img width="400" alt="Logo" src="https://raw.githubusercontent.com/CorentinMre/FreeMobileConso/main/images/logo.png"></a></p>
+<p align="center"><img width="400" alt="Logo" src="https://raw.githubusercontent.com/CorentinMre/FreeMobileConso/main/images/logoV2.png"></a></p>
 
 <br/>
 
