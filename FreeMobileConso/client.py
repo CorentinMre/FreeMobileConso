@@ -2,6 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 
+from . import dataClassification
 
 class Client:
     
@@ -23,27 +24,32 @@ class Client:
         
         self.urlLogin = "https://mobile.free.fr/account/"
         
-        listOfInternetInforamtion = ["conso", "consoMax", "restant", "horsForfait", "emprinteCarbone"]
-        listOfAppelInforamtion = ["conso", "consoMax", "appelToMyCountry", "appelToInternational", "horsForfait"]
-        listOfSMSInforamtion = ["conso", "consoMax", "maxNbSMS", "nbSMS", "horsForfait"]
-        listOfMMSInforamtion = ["conso", "consoMax", "maxNbMMS", "nbMMS", "horsForfait"]
+        listOfInternetInforamtion = ["conso", "consoMax", "remaining", "excludingPackage", "carbonFootprint"]
+        listOfAppelInforamtion = ["conso", "consoMax", "callToMyCountry", "callToInternational", "excludingPackage"]
+        listOfSMSInforamtion = ["conso", "consoMax", "maxNbSMS", "nbSMS", "excludingPackage"]
+        listOfMMSInforamtion = ["conso", "consoMax", "maxNbMMS", "nbMMS", "excludingPackage"]
 
         self.dictOfAllInformation = {
             "internet": listOfInternetInforamtion,
-            "appel": listOfAppelInforamtion,
+            "call": listOfAppelInforamtion,
             "SMS": listOfSMSInforamtion,
             "MMS": listOfMMSInforamtion
         }
                     
     
 
-    def getConso(self) -> dict: 
+    def getConsoDict(self) -> dict: 
         
         req = self.session.post(self.urlLogin, data=self.payload)
-
+        
         soup = BeautifulSoup(req.content, "html.parser")
-
+        
         userInfo = soup.find("div", {"class": "current-user__infos"})
+
+        try:
+            nameAcount = userInfo.find("div", {"class": "identite_bis"}).text.strip()
+        except:
+            raise Exception("Identifiant or password is incorrect")
 
 
         nameAcount = userInfo.find("div", {"class": "identite_bis"}).text.strip()
@@ -90,18 +96,21 @@ class Client:
                 if key == "internet" and place["class"][1].split("-")[1] == "local":
                     result[place["class"][1].split("-")[1]][key][value[4]] = lastInternetAppelInformation[2].text.strip().split(": ")[1].replace("*","")
             
-        result["totalHorsForfait"] = 0
+        result["totalExcludingPackage"] = 0
         for key, value in result.items():
             if key == "local" or key == "roaming":
                 for key2, value2 in value.items():
                     for key3, value3 in value2.items():
-                        if key3 == "horsForfait":
-                            result["totalHorsForfait"] += float(value3.replace("€", ""))
+                        if key3 == "excludingPackage":
+                            result["totalExcludingPackage"] += float(value3.replace("€", ""))
         
-        result["totalHorsForfait"] = str(result["totalHorsForfait"]) + "€"
+        result["totalExcludingPackage"] = str(result["totalExcludingPackage"]) + "€"
         result["nameAcount"] = nameAcount
-        result["identifiant"] = identifiant.split(" : ")[1]
-        result["ligne"] = ligne.split(" : ")[1].replace(" ", "")
+        result["identifier"] = identifiant.split(" : ")[1]
+        result["number"] = ligne.split(" : ")[1].replace(" ", "")
         
         return result
+    
+    def consommation(self) -> dict:
+        return dataClassification.Classification(self.getConsoDict())
         
