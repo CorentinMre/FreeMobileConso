@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class FreeMobileConso:
+class Client:
     
     def __init__(self, identifiant, password):
         self.identifiant = identifiant

@@ -1,11 +1,11 @@
 
 
-from FreeMobileConso import FreeMobileConso
+import FreeMobileConso
 
 
-client = FreeMobileConso(
-                        "identifiant",
-                        "password"
+client = FreeMobileConso.Client(
+                        "<identifiant>",
+                        "<password>"
                         )
 
 
