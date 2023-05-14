@@ -6,6 +6,7 @@ class Classification:
         self.nameAcount = data["nameAcount"]
         self.identifier = data["identifier"]
         self.number = data["number"]
+        self.date = data["date"]
         self.totalExcludingPackage = data["totalExcludingPackage"]
         
         self.local = Local(data["local"])

@@ -55,6 +55,7 @@ class Client:
         nameAcount = userInfo.find("div", {"class": "identite_bis"}).text.strip()
         identifiant = userInfo.findAll("div", {"class": "smaller"})[0].text.strip()
         ligne = userInfo.findAll("div", {"class": "smaller"})[1].text.strip()
+        date = soup.find("div", {"class": "details"}).find("div", {"class": "sub-title"}).text.strip()
         
         
         result= {}
@@ -68,13 +69,20 @@ class Client:
             for key, value in self.dictOfAllInformation.items():
                 
                 if key == "internet": itteration = 0
-                elif key == "appel": itteration = 1
+                elif key == "call": itteration = 1
                 elif key == "SMS": itteration = 2
                 elif key == "MMS": itteration = 3
                 
                 result[place["class"][1].split("-")[1]][key] = {}
                 result[place["class"][1].split("-")[1]][key][value[0]] = place.findAll("div", {"class": "number-circle"})[itteration].find("span").text.strip().replace("*","")
-                result[place["class"][1].split("-")[1]][key][value[1]] = place.findAll("div", {"class": "number-circle"})[itteration].find("p").text.replace(result[place["class"][1].split("-")[1]][key][value[0]], "").replace("/", "").strip().replace("*","")
+    
+                dataSecondValue = place.findAll("div", {"class": "number-circle"})[itteration].find("p").text.strip().replace("*","")
+
+                if "/" in dataSecondValue:
+                    result[place["class"][1].split("-")[1]][key][value[1]] = dataSecondValue.split("/")[1]
+                else:
+                    result[place["class"][1].split("-")[1]][key][value[1]] = dataSecondValue
+
                 if result[place["class"][1].split("-")[1]][key][value[1]] == "": 
                     result[place["class"][1].split("-")[1]][key][value[1]] = result[place["class"][1].split("-")[1]][key][value[0]]
                 result[place["class"][1].split("-")[1]][key][value[2]] = place.findAll("div", {"class": "text-conso-content"})[itteration].findAll("p")[0].find("span").text.replace("/ ", "").strip().replace("*","")
@@ -85,7 +93,7 @@ class Client:
                     
                     result[place["class"][1].split("-")[1]][key][value[3]] = thirdInformation[1].text.strip().split(": ")[1].replace("*","")
                     
-                elif key == "appel":
+                elif key == "call":
                     result[place["class"][1].split("-")[1]][key][value[3]] = thirdInformation[1].text.strip().split(": ")[1].replace("*","")
                     result[place["class"][1].split("-")[1]][key][value[4]] = lastInternetAppelInformation[2].text.strip().split(": ")[1].replace("*","")
                     
@@ -108,6 +116,7 @@ class Client:
         result["nameAcount"] = nameAcount
         result["identifier"] = identifiant.split(" : ")[1]
         result["number"] = ligne.split(" : ")[1].replace(" ", "")
+        result["date"] = date
         
         return result
     
