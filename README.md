@@ -4,7 +4,7 @@
 <br/>
 
 
-<h2 style="font-family: sans-serif; font-weight: normal;" align="center">An API for get<strong> Free mobile </strong>Consommation</h2>
+<h2 style="font-family: sans-serif; font-weight: normal;" align="center">A API for get<strong> Free mobile </strong>Consumption</h2>
 
 
 <br/>
@@ -15,7 +15,7 @@
 [![license](https://img.shields.io/pypi/l/FreeMobileConso.svg)](https://pypi.org/project/FreeMobileConso/)
 
 ## Description
-A python API for get your consommation of your Free mobile account
+A python API to get the consumption of your Free mobile account
 
 
 ## Dependencies
