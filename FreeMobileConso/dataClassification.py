@@ -2,6 +2,16 @@
 
 
 class Classification:
+    """
+    Classification
+    --------------
+    This class is used to classify the data obtained from the Free Mobile website
+
+    Parameters
+    ----------
+    data : dict
+        The data obtained from the Free Mobile website
+    """
     def __init__(self, data:dict):
         self.nameAcount = data["nameAcount"]
         self.identifier = data["identifier"]
@@ -16,6 +26,16 @@ class Classification:
     
 
 class Local:
+    """
+    Local
+    -----
+    This class is used to classify the data obtained from the Free Mobile website
+    
+    Parameters
+    ----------
+    data : dict
+        The data obtained from the Free Mobile website
+    """
     
     def __init__(self, data:dict):
         self.internet = Internet(data["internet"], True)
@@ -25,6 +45,16 @@ class Local:
         
     
 class Roaming:
+    """
+    Roaming
+    -------
+    This class is used to classify the data obtained from the Free Mobile website
+    
+    Parameters
+    ----------
+    data : dict
+        The data obtained from the Free Mobile website
+    """
     
     def __init__(self, data:dict):
         self.internet = Internet(data["internet"], False)
@@ -33,6 +63,16 @@ class Roaming:
         self.mms = MMS(data["MMS"])
 
 class Internet:
+    """
+    Internet
+    --------
+    This class is used to classify the data obtained from the Free Mobile website
+    
+    Parameters
+    ----------
+    data : dict
+        The data obtained from the Free Mobile website
+    """
     
     def __init__(self, data:dict, carbonFootprint:bool):
         self.conso = data["conso"]
@@ -43,6 +83,16 @@ class Internet:
         if carbonFootprint: self.carbonFootprint = data["carbonFootprint"]
 
 class Appel:
+    """
+    Appel
+    -----
+    This class is used to classify the data obtained from the Free Mobile website
+    
+    Parameters
+    ----------
+    data : dict
+        The data obtained from the Free Mobile website
+    """
     
     def __init__(self, data:dict):
         self.conso = data["conso"]
@@ -52,6 +102,16 @@ class Appel:
         self.excludingPackage = data["excludingPackage"]
 
 class SMS:
+    """
+    SMS
+    ---
+    This class is used to classify the data obtained from the Free Mobile website
+    
+    Parameters
+    ----------
+    data : dict
+        The data obtained from the Free Mobile website
+    """
     
     def __init__(self, data:dict):
         self.conso = data["conso"]
@@ -62,6 +122,16 @@ class SMS:
         
         
 class MMS:
+    """
+    MMS
+    ---
+    This class is used to classify the data obtained from the Free Mobile website
+    
+    Parameters
+    ----------
+    data : dict
+        The data obtained from the Free Mobile website
+    """
     
     def __init__(self, data:dict):
         self.conso = data["conso"]
